@@ -30,7 +30,8 @@ def run_epoch(loader, model, crit, opt, device, scaler=None, train=True):
                 with autocast():
                     out = model(x)
                     loss = crit(out, y)
-                scaler.scale(loss).step(opt)
+                scaler.scale(loss).backward()
+                scaler.step(opt)
                 scaler.update()
             else:
                 out = model(x)
