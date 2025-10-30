@@ -1,1 +1,42 @@
+experiment: mnist_simplecnn
+seed: 42
 
+data:
+  dataset: MNIST
+  root: ./data
+  batch_size: 128
+  num_workers: 2
+  val_split: 0.1
+  normalization: minmax
+  augment:
+    rotate_deg: 10
+    translate_px: 3
+    scale_min: 0.9
+    scale_max: 1.1
+    elastic_alpha: 0.0
+
+model:
+  name: SimpleCNN
+  channels: [32, 64, 128]
+  fc_dim: 128
+  dropout: 0.3
+
+train:
+  max_epochs: 25
+  optimizer: adam
+  lr: 0.001
+  weight_decay: 0.0001
+  label_smoothing: 0.05
+  mixed_precision: true
+  early_stopping:
+    monitor: val_loss
+    patience: 5
+  scheduler:
+    name: ReduceLROnPlateau
+    monitor: val_loss
+    factor: 0.5
+    patience: 3
+
+eval:
+  select_by: val_accuracy
+  save_dir: runs
