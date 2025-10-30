@@ -1,6 +1,6 @@
 import os, argparse, yaml, torch
 from torch import nn, optim
-from torch.amp import GradScaler, autocast
+from torch.cuda.amp import GradScaler, autocast
 from src.utils import set_seed, get_device, save_checkpoint, accuracy
 from src.data import get_dataloaders
 from src.model import build_model
